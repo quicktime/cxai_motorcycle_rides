@@ -7,9 +7,9 @@ class MyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<RouteSettingsCubit>(
       create: (context) => RouteSettingsCubit(),
-      child: Column(
+      child: const Column(
         children: [
           SliderColumn(),
           OptionsColumn(),
@@ -48,7 +48,7 @@ class OptionsColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         Text('Options Column'),
         // Add your options widgets here
@@ -65,7 +65,7 @@ class ElevatedButtonColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         Text('Elevated Button Column'),
         // Add your elevated button widget here

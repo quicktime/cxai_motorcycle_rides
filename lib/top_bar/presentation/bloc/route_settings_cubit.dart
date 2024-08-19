@@ -13,9 +13,12 @@ abstract class RouteSettingsState extends Equatable {
 }
 
 class RouteSettingsInitial extends RouteSettingsState {
-  const RouteSettingsInitial({required this.distance, required this.rideType});
-  final double distance;
-  final RideType rideType;
+  const RouteSettingsInitial({required double distance, required RideType rideType});
+  @override
+  double? get distance => null;
+
+  @override
+  RideType? get rideType => null;
 }
 
 class RouteSettingsLoading extends RouteSettingsState {
@@ -23,14 +26,11 @@ class RouteSettingsLoading extends RouteSettingsState {
 }
 
 class RouteSettingsLoaded extends RouteSettingsState {
-  const RouteSettingsLoaded({required this.distance, required this.rideType});
-  final double distance;
-  final RideType rideType;
+  const RouteSettingsLoaded({required double distance, required RideType rideType});
 
   @override
-  List<Object> get props => [distance, rideType];
+  List<Object> get props => [distance as Object, rideType as Object];
 }
-
 
 class RouteSettingsCubit extends Cubit<RouteSettingsState> {
   RouteSettingsCubit()

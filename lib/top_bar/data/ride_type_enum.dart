@@ -1,5 +1,5 @@
 enum RideTypeEnum {
   fast,
-  curvy,
   twisty,
+  cruising,
 }
