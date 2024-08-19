@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('CXAI Motorcycle Rides'),
+          title: const Text('MotoGenRides'),
         ),
         body: const Column(
           children: [
