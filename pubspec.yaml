@@ -43,8 +43,10 @@ dependencies:
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
   location: ^6.0.2
-  flutter_polyline_points: ^2.1.0
   envied: ^0.5.4+1
+  google_generative_ai: ^0.4.5
+  lottie: ^3.1.2
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +79,8 @@ flutter:
   assets:
     - assets/locations.json
     - assets/route.json
+    - assets/loading-animation.json
+    - assets/markers/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

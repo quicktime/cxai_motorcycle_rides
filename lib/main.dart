@@ -1,8 +1,24 @@
-import 'package:cxai_motorcycle_rides/map/presentation/map_view_polylines.dart';
+import 'package:cxai_motorcycle_rides/map/presentation/bloc/map_view_cubit.dart';
+import 'package:cxai_motorcycle_rides/map/presentation/pages/map_builder.dart';
+import 'package:cxai_motorcycle_rides/top_bar/presentation/bloc/route_settings_cubit.dart';
+import 'package:cxai_motorcycle_rides/top_bar/presentation/widgets/top_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<RouteSettingsCubit>(
+          create: (routeSettingsContext) => RouteSettingsCubit(),
+        ),
+        BlocProvider<MapViewCubit>(
+          create: (mapContext) => MapViewCubit(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -13,9 +29,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.green[700],
+        colorSchemeSeed: Colors.purpleAccent[700],
       ),
-      home: const MapWithPolyline(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('CXAI Motorcycle Rides'),
+        ),
+        body: const Column(
+          children: [
+            RouteSettingsBar(),
+            Expanded(child: MapBuilder()),
+          ],
+        ),
+      ),
     );
   }
 }

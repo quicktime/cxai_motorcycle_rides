@@ -1,4 +1,4 @@
-enum RideTypeEnum {
+enum RideType {
   fast,
   twisty,
   cruising,

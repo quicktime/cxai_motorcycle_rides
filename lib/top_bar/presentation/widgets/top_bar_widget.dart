@@ -1,75 +1,47 @@
-import 'package:cxai_motorcycle_rides/top_bar/presentation/bloc/route_settings_cubit.dart';
+import 'package:cxai_motorcycle_rides/core/location.dart';
+import 'package:cxai_motorcycle_rides/map/presentation/bloc/map_view_cubit.dart';
+import 'package:cxai_motorcycle_rides/top_bar/presentation/widgets/distance.dart';
+import 'package:cxai_motorcycle_rides/top_bar/presentation/widgets/ride_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
+class RouteSettingsBar extends StatelessWidget {
+  const RouteSettingsBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<RouteSettingsCubit>(
-      create: (context) => RouteSettingsCubit(),
-      child: const Column(
-        children: [
-          SliderColumn(),
-          OptionsColumn(),
-          ElevatedButtonColumn(),
-        ],
-      ),
-    );
+    return MultiBlocProvider(providers: [
+      BlocProvider(create: (_) => SliderCubit()),
+      BlocProvider(create: (_) => RideStyleCubit()),
+    ], child: const RouteSettingsBarWidget());
   }
 }
 
-class SliderColumn extends StatelessWidget {
-  const SliderColumn({super.key});
+class RouteSettingsBarWidget extends StatelessWidget {
+  const RouteSettingsBarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double? distance = BlocProvider.of<RouteSettingsCubit>(context).state.distance;
+    final sliderCubit = BlocProvider.of<SliderCubit>(context);
+    final rideStyleCubit = BlocProvider.of<RideStyleCubit>(context);
+
     return Column(
       children: [
-        Text('Distance: $distance'),
-        Slider(
-          value: distance ?? 0,
-          min: 0,
-          max: 100,
-          onChanged: (value) {
-            BlocProvider.of<RouteSettingsCubit>(context)
-                .updateRouteSettings(value, BlocProvider.of<RouteSettingsCubit>(context).state.rideType!);
+        const DistanceSlider(),
+        const RideStyleSelector(),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.black,
+            backgroundColor: const Color(0xFFefdcf5),
+            surfaceTintColor: Colors.black,
+            side: const BorderSide(color: Color.fromARGB(255, 126, 126, 126), width: 1),
+          ),
+          onPressed: () async {
+            BlocProvider.of<MapViewCubit>(context)
+                .updateMapView(await getCurrentLocation(), sliderCubit.state, rideStyleCubit.state);
           },
+          child: const Text('Generate Ride'),
         ),
-      ],
-    );
-  }
-}
-
-class OptionsColumn extends StatelessWidget {
-  const OptionsColumn({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Text('Options Column'),
-        // Add your options widgets here
-        // Example: RadioListTile(value: 1, groupValue: 1, onChanged: (value) {}),
-        // Example: RadioListTile(value: 2, groupValue: 1, onChanged: (value) {}),
-        // Example: RadioListTile(value: 3, groupValue: 1, onChanged: (value) {}),
-      ],
-    );
-  }
-}
-
-class ElevatedButtonColumn extends StatelessWidget {
-  const ElevatedButtonColumn({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Text('Elevated Button Column'),
-        // Add your elevated button widget here
-        // Example: ElevatedButton(onPressed: () {}, child: Text('Button')),
       ],
     );
   }

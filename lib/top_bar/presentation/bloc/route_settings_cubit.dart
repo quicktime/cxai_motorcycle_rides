@@ -1,11 +1,10 @@
 import 'package:cxai_motorcycle_rides/top_bar/data/ride_type_enum.dart';
-import 'package:cxai_motorcycle_rides/top_bar/data/ride_type_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class RouteSettingsState extends Equatable {
   const RouteSettingsState({this.distance, this.rideType});
-  final double? distance;
+  final int? distance;
   final RideType? rideType;
 
   @override
@@ -13,9 +12,9 @@ abstract class RouteSettingsState extends Equatable {
 }
 
 class RouteSettingsInitial extends RouteSettingsState {
-  const RouteSettingsInitial({required double distance, required RideType rideType});
+  const RouteSettingsInitial({required int distance, required RideType rideType});
   @override
-  double? get distance => null;
+  int? get distance => null;
 
   @override
   RideType? get rideType => null;
@@ -26,7 +25,7 @@ class RouteSettingsLoading extends RouteSettingsState {
 }
 
 class RouteSettingsLoaded extends RouteSettingsState {
-  const RouteSettingsLoaded({required double distance, required RideType rideType});
+  const RouteSettingsLoaded({required int distance, required RideType rideType});
 
   @override
   List<Object> get props => [distance as Object, rideType as Object];
@@ -35,21 +34,13 @@ class RouteSettingsLoaded extends RouteSettingsState {
 class RouteSettingsCubit extends Cubit<RouteSettingsState> {
   RouteSettingsCubit()
       : super(
-          RouteSettingsInitial(
+          const RouteSettingsInitial(
             distance: 0,
-            rideType: RideType(
-              type: RideTypeEnum.fast,
-              icon: 'fast',
-            ),
+            rideType: RideType.fast,
           ),
         );
 
-  void updateRouteSettings(double distance, RideType rideType) {
-    emit(const RouteSettingsLoading());
-    try {
-      emit(RouteSettingsLoaded(distance: distance, rideType: rideType));
-    } catch (e) {
-      // TODO(quicktime): Add error handling
-    }
+  void updateRouteSettings(int distance, RideType rideType) {
+    emit(RouteSettingsLoaded(distance: distance, rideType: rideType));
   }
 }
